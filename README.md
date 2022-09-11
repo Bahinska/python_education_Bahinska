@@ -1,1 +1,1 @@
-"# python_education_Bahinska" 
+Repository for LNU study tasks
