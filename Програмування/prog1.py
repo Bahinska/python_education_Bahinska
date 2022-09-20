@@ -38,7 +38,22 @@ def size_validation(a):
     return a
 
 
-def number_validation(a):
+def range_validation():
+    a = number_check(input("a = "))
+    b = number_check(input("b = "))
+    while True:
+        if a >= b:
+            print("Wrong input (It must be range a < b). Try again")
+            a = input("a = ")
+            b = input("b = ")
+            continue
+        break
+    return a, b
+
+
+def number_check(a):
+    minNum = 1000
+    maxNum = 9999
     while True:
         try:
             a = int(a)
@@ -46,7 +61,7 @@ def number_validation(a):
             print("Wrong input. Try again")
             a = input()
             continue
-        if (a < 1000) | (a > 9999):
+        if (a < minNum) | (a > maxNum):
             print("Numbers must be in range 999 < x < 10000")
             a = input()
             continue
@@ -68,7 +83,9 @@ def processing(array):
 
 
 def task_with_randon(size):
-    array = np.random.randint(1000, 10000, size, int)
+    print("Enter range [a, b]")
+    a, b = range_validation()
+    array = np.random.randint(a, b, size, int)
     print("Array: ", array)
     result = processing(array)
     print("Result: ", result)
@@ -78,7 +95,7 @@ def task_with_user(size):
     print("Input nums from 1000 to 9999")
     array = np.array([], dtype=int)
     for i in range(size):
-        num = number_validation(input())
+        num = number_check(input())
         array = np.append(array, num)
     print("Array: ", array)
     result = processing(array)
