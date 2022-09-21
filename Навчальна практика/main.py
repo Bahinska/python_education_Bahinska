@@ -8,41 +8,43 @@
 # коли користувач натиснув відповідний пункт меню.
 import random
 
-def size_validation(a):
+def input_positive_int():
     while True:
         try:
-            a = int(a)
+            a = int(input())
         except:
-            print("Wrong input (integer only). Try again")
-            a = input()
+            print("Must be positive integer only")
             continue
         if a < 1:
-            print("Wrong input (positive only). Try again")
-            a = input()
+            print("Must be positive integer only")
             continue
         break
     return a
 
-def number_validation(a):
+
+def float_input():
     while True:
         try:
-            a = float(a)
+            a = float(input())
         except:
             print("Wrong input. Try again")
-            a = input()
             continue
         break
     return a
 
 
-def range_validation():
-    a = number_validation(input("a = "))
-    b = number_validation(input("b = "))
+def range_input():
+    print("a = ", end='')
+    a = float_input()
+    print("b = ", end='')
+    b = float_input()
     while True:
         if a >= b:
             print("Wrong input (It must be range a < b). Try again")
-            a = number_validation(input("a = "))
-            b = number_validation(input("b = "))
+            print("a = ", end='')
+            a = float_input()
+            print("b = ", end='')
+            b = float_input()
             continue
         break
     return a, b
@@ -52,7 +54,7 @@ def task_with_user(size):
     print("Input nums: ")
     array = []
     for i in range(size):
-        num = number_validation(input())
+        num = float_input()
         array.append(num)
     print("Array: ", array)
     operations, comparisons = Merge_Sort(array)
@@ -62,7 +64,7 @@ def task_with_user(size):
 def task_with_random(size):
     array = []
     print("Enter range [a, b]")
-    a, b = range_validation()
+    a, b = range_input()
     array = [random.uniform(a, b) for _ in range(size)]
     print("Array: ", array)
     operations, comparisons = Merge_Sort(array)
@@ -86,6 +88,7 @@ def merge(array, temp, From, mid, to, operations, comparisons):
             temp[a] = array[middle]
             middle += 1
             operations += 2
+            comparisons += 1
         a += 1
         operations += 1
 
@@ -101,6 +104,8 @@ def merge(array, temp, From, mid, to, operations, comparisons):
     for b in range(From, to + 1):
         array[b] = temp[b]
         operations += 1
+
+    return operations, comparisons
 
 
 # Iterative sort
@@ -120,7 +125,9 @@ def Merge_Sort(array):
             mid = i + d - 1
             to = min(i + 2 * d - 1, high)
             operations += 3
-            merge(array, temp, From, mid, to, operations, comparisons)
+            oper, comp = merge(array, temp, From, mid, to, operations, comparisons)
+            operations += oper
+            comparisons += comp
 
         d *= 2
         operations += 1
@@ -135,11 +142,11 @@ def menu():
             exit()
         elif choice == '1':
             print("Enter the size of array")
-            size = size_validation(input())
+            size = input_positive_int()
             task_with_user(size)
         elif choice == '2':
             print("Enter the size of array")
-            size = size_validation(input())
+            size = input_positive_int()
             task_with_random(size)
         else:
             continue
