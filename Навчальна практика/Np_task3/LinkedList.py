@@ -31,7 +31,7 @@ class LinkedList:
                 current = current.next
             current.next = new_element
         else:
-            self.head = Node(value)
+            self.head = new_element
 
     def delete(self, value):
         prev = None
@@ -51,6 +51,46 @@ class LinkedList:
                 current = current.next
         else:
             raise Exception("Element does not exist")
+
+    def pop(self):
+        current = self.head
+        if current is None:
+            raise IndexError('Empty LinkedList')
+        if current.next is None:
+            self.clear()
+            return
+        while current.next:
+            if current.next.next is None:
+                current.next = None
+            else:
+                current = current.next
+
+    def clear(self):
+        temp = self.head
+        if temp is None:
+            raise IndexError('Empty LinkedList')
+        while temp:
+            self.head = temp.next
+            temp = self.head
+
+    def delete_by_index(self, pos):
+        if pos < 0 | pos > self.len():
+            raise Exception("Invalid index")
+
+        if pos == self.len()-1:
+            self.pop()
+        if pos == 0:
+            self.head = self.head.next
+        else:
+            prev = None
+            current = self.head
+            i = 0
+            while current:
+                if i == pos:
+                    prev.next = current.next
+                prev = current
+                current = current.next
+                i += 1
 
     def insert(self, value, pos):
         if pos < 0 | pos > self.len():
@@ -79,7 +119,10 @@ class LinkedList:
 
     def processing(self):
         current = self.head
-        while current and current.item != 0:
+        while current:
+            if current.item == 0:
+                current = current.next
+                continue
             num = str(current.item)
             x = num[0]
             y = num[1]
