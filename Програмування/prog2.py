@@ -19,9 +19,7 @@ def input_positive_int():
     return a
 
 
-def matrix():
-    print("Enter size: ")
-    size = input_positive_int()
+def matrix(size):
     mat = np.array([[0 for col in range(size)] for row in range(size)])
     for row in range(size):
         for col in range(size):
@@ -37,7 +35,9 @@ def menu():
             print("Enter 1 to generate matrix\nEnter 2 to exit")
             choice = input()
             if choice == '1':
-                m = matrix()
+                print("Enter size: ")
+                size = input_positive_int()
+                m = matrix(size)
                 print_matrix(m)
             elif choice == '2':
                 exit()
