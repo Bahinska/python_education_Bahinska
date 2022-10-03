@@ -23,6 +23,10 @@ def menu():
         if task == '8':
             Valid.validate_inp(write_in_json, collection)
         if task == '9':
+            Valid.validate_inp(add_to_jsonFile, collection)
+        if task == '10':
+            Valid.validate_inp(del_from_jsonFile, collection)
+        if task == '11':
             print(collection)
         if task == 'exit':
             quit()
@@ -31,15 +35,17 @@ def menu():
 def get_help_message():
     help_message = "*" * 51
     help_message += "\n  HELP:" + 42 * " " + "\n  Possible commands:" + 29 * " " + \
-                    "\n  1 - to read from file. " + 25 * " " + \
-                    "\n  2 - to sort elements. " + 25 * " " + \
-                    "\n  3 - to search element.  " + 20 * " " + \
-                    "\n  4 - to add Product to collection. " + 10 * " " + \
-                    "\n  5 - to del Product from collection.  " + 10 * " " + \
-                    "\n  6 - to edit Product in collection.  " + 9 * " " + \
-                    "\n  7 - to write collection elements to txt file.  " \
-                    "\n  8 - to write collection elements to json file. " \
-                    "\n  9 - to print collection. " + 22 * " " + \
+                    "\n  1  - to read from file. " + 25 * " " + \
+                    "\n  2  - to sort elements. " + 25 * " " + \
+                    "\n  3  - to search element.  " + 20 * " " + \
+                    "\n  4  - to add Product to collection. " + 10 * " " + \
+                    "\n  5  - to del Product from collection.  " + 10 * " " + \
+                    "\n  6  - to edit Product in collection.  " + 9 * " " + \
+                    "\n  7  - to write collection elements to txt file.  " \
+                    "\n  8  - to write collection elements to json file. " \
+                    "\n  9  - add product to json file. " + \
+                    "\n  10 - delete product from json file. " + \
+                    "\n  11 - to print collection. " + 22 * " " + \
                     "\n  exit - to exit.  " + 30 * " " + "\n"
     help_message += "*" * 51 + "\n"
     return help_message
@@ -49,6 +55,7 @@ def read_json(collection):
     file = Valid.FileName_validation(input("File name: "), "json")
     if Valid.file_exist(file):
         collection.read_json_file(file)
+        return file
     else:
         raise ValueError("File does not exist!")
 
@@ -97,6 +104,15 @@ def edit(collection):
     else:
         raise ValueError("Incorrect edit request")
 
+def add_to_jsonFile(collection):
+    file = read_json(collection)
+    add(collection)
+    collection.write_in_json(file)
+
+def del_from_jsonFile(collection):
+    file = read_json(collection)
+    delete(collection)
+    collection.write_in_json(file)
 
 def write_in_txt(collection):
     collection.write_in_txt(Valid.FileName_validation(input("Enter file name: ")))
