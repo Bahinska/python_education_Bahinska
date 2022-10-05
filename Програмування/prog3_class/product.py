@@ -4,10 +4,19 @@ from helper import *
 class Product(object):
 
     def __init__(self, **kwargs):
+        er = ""
         for (prop, default) in kwargs.items():
-            setattr(self, prop, kwargs.get(prop))
-        if kwargs.__len__() != 0:
-            self.check_proper_prod()
+            try:
+                setattr(self, prop, default)
+            except ValueError as e:
+                er += "\n -- " + str(e)
+        try:
+            Valid.compere_dates(self.created_at, self.updated_at)
+        except ValueError as e:
+            er += "\n -- " + str(e)
+        if len(er) > 0:
+            raise ValueError("Element can't be created" + er)
+
 
     @property
     def title(self):
@@ -39,7 +48,7 @@ class Product(object):
 
     @price.setter
     def price(self, p):
-        self._price = Valid.positive_float(p)
+        self._price = Valid.price_validation(p)
 
     @property
     def created_at(self):
@@ -78,17 +87,9 @@ class Product(object):
         return result
 
     @staticmethod
-    def input_product():
-        prod = Product()
-        prod.id = input("id : ")
-        prod.title = input("title : ")
-        prod.price = input("price : ")
-        prod.image_url = input("image_url : ")
-        prod.created_at = input("created_at : ")
-        prod.updated_at = input("updated_at : ")
-        Valid.compere_dates(prod.created_at, prod.updated_at)
-        prod.description = input("description : ")
-        return prod
+    def input_product(*args):
+        d = dict((prop, input(prop + " : ")) for prop in args)
+        return d
 
     @staticmethod
     def edit_product(el_to_edit, parameter):
@@ -103,12 +104,5 @@ class Product(object):
         return "Product:\n" + '\n'.join("%s : %r" % (key2[1:], str(val2)) for (key2, val2)
                                             in self.__get_dictionary().items()) + "\n\n"
 
-    def check_proper_prod(self):
-        self._id = Valid.id_validation(self._id)
-        self._title = Valid.name_validation(self._title)
-        self._image_url = Valid.url_validation(self._image_url)
-        self._price = Valid.positive_float(self._price)
-        if not isinstance(self._created_at, date) or not isinstance(self._updated_at, date):
-            self._created_at = Valid.date_validation(self._created_at)
-            self._updated_at = Valid.date_validation(self._updated_at)
-            Valid.compere_dates(self._created_at, self._updated_at)
+    def dict_to_json(self):
+        return dict((name[1:], getattr(self, name)) for name in self.__dict__ if not name.startswith('u'))
