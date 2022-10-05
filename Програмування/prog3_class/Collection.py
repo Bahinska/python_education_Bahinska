@@ -26,7 +26,6 @@ class Collection:
 
     def append(self, el):
         if el.id not in self.id_list:
-            Product.check_proper_prod(el)
             self.lst.append(el)
             self.id_list.append(el.id)
         else:
@@ -87,9 +86,9 @@ class Collection:
         temp = []
         with open(file_name, 'w', encoding='utf-8') as outfile:
             for ob in self.lst:
-                dictionary = ob.__dict__
-                dictionary["_created_at"] = dictionary["_created_at"].strftime('%d-%m-%Y')
-                dictionary["_updated_at"] = dictionary["_updated_at"].strftime('%d-%m-%Y')
+                dictionary = ob.dict_to_json()
+                dictionary["created_at"] = dictionary["created_at"].strftime('%d-%m-%Y')
+                dictionary["updated_at"] = dictionary["updated_at"].strftime('%d-%m-%Y')
                 temp.append(dictionary)
             json.dump(temp, outfile, ensure_ascii=False)
         outfile.close()
@@ -101,9 +100,9 @@ class Collection:
         for i, product in enumerate(file):
             try:
                 product["u_id"] = str(uuid.uuid4())
-                if product["_id"] not in self.id_list:
+                if product["id"] not in self.id_list:
                     self.lst.append(Product(**product))
-                    self.id_list.append(product["_id"])
+                    self.id_list.append(product["id"])
             except ValueError as e:
                 print(str(e))
                 continue
