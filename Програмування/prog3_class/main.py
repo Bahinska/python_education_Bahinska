@@ -81,7 +81,8 @@ def search(collection):
 
 
 def add(collection):
-    collection.append(Product.input_product())
+    d = Product.input_product("id", "title", "image_url", "price", "created_at", "updated_at", "description")
+    collection.append(Product(**d))
     print("Successfully added!\n")
 
 
