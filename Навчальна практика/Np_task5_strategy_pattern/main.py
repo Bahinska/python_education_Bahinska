@@ -54,12 +54,12 @@ def generate_list(l, context):
         a, b = Validation.range_input(1000, 9999)
         if (b - a + 1) < n:
             raise ValueError("Iteration error")
-        pos = Validation.number_check(input("Position: "), 0, 10000)
+        pos = Validation.input_pos()
         context.generate_list(l, pos, n, a, b)
 
     if isinstance(context.strategy, From_file):
         file = Validation.file_exist(input("Enter file: "))
-        pos = Validation.number_check(input("Position: "), 0, 10000)
+        pos = Validation.input_pos()
         context.generate_list(l, pos, file)
 
 @Validation.validate_inp
@@ -67,7 +67,7 @@ def del_by_pos(l):
     if l.len() == 0:
         print("empty list")
     else:
-        pos = Validation.number_check(input("Position: "), 0, 10000)
+        pos = Validation.input_pos()
         l.delete_by_index(pos)
 
 @Validation.validate_inp
