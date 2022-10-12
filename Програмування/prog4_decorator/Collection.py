@@ -64,14 +64,6 @@ class Collection:
         else:
             Product.edit_product(el_to_edit, parameter)
 
-    def __edit_id(self, el_to_edit, new_id):
-        if new_id in self.id_list:
-            raise ValueError("Mistake! Value with this id already exist")
-        else:
-           self.id_list.remove(el_to_edit.id)
-           self.id_list.append(new_id)
-           el_to_edit.id = new_id
-
     def search(self, found_string):
         found_string = found_string.lower()
         founds = Collection()
