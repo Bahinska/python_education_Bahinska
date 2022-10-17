@@ -36,12 +36,6 @@ def menu():
         if task == '8':
             write_in_json(collection)
         if task == '9':
-            add_to_jsonFile(collection)
-            save(collection, originator, history, "add prod to json file")
-        if task == '10':
-            del_from_jsonFile(collection)
-            save(collection, originator, history, "del prod to json file")
-        if task == '11':
             print(collection)
         if task == '<':
             collection = undo(originator, history)
@@ -64,9 +58,7 @@ def get_help_message():
                     "\n  6  - to edit Product in collection.  " + \
                     "\n  7  - to write collection elements to txt file.  " \
                     "\n  8  - to write collection elements to json file. " \
-                    "\n  9  - add product to json file. " + \
-                    "\n  10 - delete product from json file. " + \
-                    "\n  11 - to print collection. " + \
+                    "\n  9 - to print collection. " + \
                     "\n  <  - to undo. " + \
                     "\n  >  - to redo. " + \
                     "\n  show - to show history" +\
@@ -129,18 +121,6 @@ def edit(collection):
        collection.edit(el_to_edit, parameter)
     else:
         raise ValueError("Incorrect edit request")
-
-@Valid.validate_inp
-def add_to_jsonFile(collection):
-    file = read_json(collection)
-    add(collection)
-    collection.write_in_json(file)
-
-@Valid.validate_inp
-def del_from_jsonFile(collection):
-    file = read_json(collection)
-    delete(collection)
-    collection.write_in_json(file)
 
 @Valid.validate_inp
 def write_in_txt(collection):
