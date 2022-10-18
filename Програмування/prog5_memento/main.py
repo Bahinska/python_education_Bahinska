@@ -18,10 +18,11 @@ def menu():
             file = read_json(collection)
             save(collection, originator, history, "read from file")
         if task == '2':
-            sort(collection)
-            save(collection, originator, history, "sort")
+            request = sort(collection)
+            save(collection, originator, history, f"sort: {request}")
         if task == '3':
-            search(collection, "search")
+            request, collection = search(collection)
+            save(collection, originator, history, f"search: {request}")
         if task == '4':
             add(collection)
             save(collection, originator, history, "add product")
@@ -86,6 +87,7 @@ def sort(collection):
         raise ValueError("Incorrect sort request")
     else:
         collection.sort(string)
+        return string
 
 @Valid.validate_inp
 def search(collection):
@@ -96,6 +98,7 @@ def search(collection):
         print(result)
     else:
         print("Nothing was found :(")
+    return request, result
 
 @Valid.validate_inp
 def add(collection):
