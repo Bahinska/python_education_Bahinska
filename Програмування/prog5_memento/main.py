@@ -10,12 +10,12 @@ def menu():
 
     originator.article = collection.__copy__()
     history.addMemento(originator.save(), "Start")
-
+    file = None
     while True:
         help_message = get_help_message()
         task = input(help_message)
         if task == '1':
-            read_json(collection)
+            file = read_json(collection)
             save(collection, originator, history, "read from file")
         if task == '2':
             sort(collection)
@@ -32,10 +32,8 @@ def menu():
             edit(collection)
             save(collection, originator, history, "edit product")
         if task == '7':
-            write_in_txt(collection)
+            write_in_json(collection, file)
         if task == '8':
-            write_in_json(collection)
-        if task == '9':
             print(collection)
         if task == '<':
             collection = undo(originator, history)
@@ -45,6 +43,10 @@ def menu():
             history.show_actions()
         if task == 'exit':
             quit()
+
+        if file != None:
+            collection.write_in_json(file)
+
 
 
 def get_help_message():
@@ -56,9 +58,8 @@ def get_help_message():
                     "\n  4  - to add Product to collection. " + \
                     "\n  5  - to del Product from collection.  " + \
                     "\n  6  - to edit Product in collection.  " + \
-                    "\n  7  - to write collection elements to txt file.  " \
-                    "\n  8  - to write collection elements to json file. " \
-                    "\n  9 - to print collection. " + \
+                    "\n  7  - to write collection elements to json file. " \
+                    "\n  8  - to print collection. " + \
                     "\n  <  - to undo. " + \
                     "\n  >  - to redo. " + \
                     "\n  show - to show history" +\
@@ -123,12 +124,11 @@ def edit(collection):
         raise ValueError("Incorrect edit request")
 
 @Valid.validate_inp
-def write_in_txt(collection):
-    collection.write_in_txt((input("Enter file name: ")))
-
-@Valid.validate_inp
-def write_in_json(collection):
-    collection.write_in_json(input("Enter file name: "))
+def write_in_json(collection, file):
+    if file == None:
+        collection.write_in_json(input("Enter file name: "))
+    else:
+        collection.write_in_json(file)
 
 @Valid.validate_inp
 def save(collection, originator, history, action):
