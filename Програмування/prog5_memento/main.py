@@ -135,19 +135,19 @@ def write_in_json(collection, file):
 
 @Valid.validate_inp
 def save(collection, originator, history, action):
-    to_save = collection.__copy__()
+    to_save = copy.deepcopy(collection.__copy__())
     originator.article = to_save
     history.addMemento(originator.save(), action)
 
 
 def undo(originator, history):
     originator.restore(history.undo())
-    return originator.__copy__()
+    return copy.deepcopy(originator.__copy__())
 
 
 def redo(originator, history):
     originator.restore(history.redo())
-    return originator.__copy__()
+    return copy.deepcopy(originator.__copy__())
 
 
 if __name__ == '__main__':
