@@ -44,7 +44,7 @@ class Booking:
         return self._startDate
 
     @startDate.setter
-    @Validation.validateDate
+    @Date.validateDate
     def startDate(self, data):
         self._startDate = data
 
