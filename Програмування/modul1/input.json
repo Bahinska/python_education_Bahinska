@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Mary",
+    "pricePerDay": "200.58",
+    "startDate": "09-04-2020",
+    "endDate": "11-04-2020"
+  },
+  {
+    "name": "John",
+    "pricePerDay": "300.99",
+    "startDate": "10-04-2021",
+    "endDate": "13-04-2021"
+  },
+  {
+    "name": "Slavik",
+    "pricePerDay": "199.48",
+    "startDate": "18-04-2020",
+    "endDate": "25-04-2020"
+  },
+  {
+    "name": "Wendy",
+    "pricePerDay": "500.58",
+    "startDate": "19-10-2021",
+    "endDate": "29-10-2021"
+  },
+  {
+    "name": "Tomas",
+    "pricePerDay": "212.58",
+    "startDate": "08-02-2019",
+    "endDate": "10-02-2019"
+  }
+]
