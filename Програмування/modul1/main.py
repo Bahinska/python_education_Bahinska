@@ -20,6 +20,7 @@ def menu():
         task = input(help_message)
         if task == '1':
             file = read_json(collection)
+            print(collection)
         if task == 'exit':
             quit()
 
