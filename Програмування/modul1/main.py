@@ -20,7 +20,6 @@ def menu():
         task = input(help_message)
         if task == '1':
             file = read_json(collection)
-            print(collection[0].DaysCount())
         if task == 'exit':
             quit()
 
