@@ -33,6 +33,10 @@ class ProductListView(ListAPIView):
             return Response({"status": 400,
                              "errors": serializer.errors},
                             status=status.HTTP_400_BAD_REQUEST)
+        
+def get_id(obj):
+    serializer = ProductSerializer(deepcopy(obj))
+    return serializer.data["ID"]
 
 
 class ProductDetailView(APIView):
@@ -66,6 +70,12 @@ class ProductDetailView(APIView):
                             status=status.HTTP_404_NOT_FOUND)
 
         product_data = JSONParser().parse(request)
+        
+         if get_id(product) != product_data["ID"]:
+            return Response({"status": 304,
+                             "message": "Updating id is forbidden"},
+                            status=status.HTTP_304_NOT_MODIFIED)
+        
         serializer = ProductSerializer(product, data=product_data)
 
         if serializer.is_valid():
