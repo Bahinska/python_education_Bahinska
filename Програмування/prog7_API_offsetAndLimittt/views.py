@@ -35,6 +35,16 @@ class ProductListView(ListAPIView):
 
     #  offset and limit
     pagination_class = LimitOffsetPagination
+    
+    def get(self, request, *args, **kwargs):
+        offset = request.query_params.get("offset", None)
+        limit = request.query_params.get("limit", None)
+        if limit and offset:
+            mut = request.query_params._mutable
+            request.query_params._mutable = True
+            request.query_params["offset"] = int(offset) * int(limit)
+            request.query_params._mutable = mut
+        return super().get(request, *args, **kwargs)
 
     @swagger_auto_schema(**EndpointDocs.POST)
     def post(self, request):
