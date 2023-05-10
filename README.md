@@ -1,1 +1,1 @@
-Repository for LNU study tasks
+Repository for LNU programming tasks.
